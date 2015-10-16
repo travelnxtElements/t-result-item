@@ -1,0 +1,210 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
+<dom-module id="t-result-item">
+    <template>
+        <style>
+        :host {
+            display: block;
+        }
+        
+        #resultItem {
+            font-size: var(--font-12, 12px);
+            font-family: var(--primary-font-family);
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 10px;
+            border-bottom: 1px solid;
+            border-color: var(--grey-two, #eeeeee);
+        }
+        
+        .vertical-margin {
+            margin-bottom: 5px;
+        }
+        
+        .resultItem__content {
+            margin: 0 10px;
+        }
+        
+        span {
+            line-height: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        
+        .min-width {
+            max-width: 20%;
+            height: 20px;
+        }
+        
+        .content-section {
+            overflow: hidden;
+        }
+        
+        .price h3 {
+            font-size: var(--font-16, 16px);
+            font-weight: 600;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .price {
+            text-align: right;
+        }
+        
+        .time {
+            font-size: var(--font-16, 16px);
+        }
+        
+        .airlineName,
+        .duration,
+        .stops {
+            color: #bbbbbb;
+        }
+        
+        .duration {}
+        
+        img {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .currency {
+            font-size: var(--font-12, 12px);
+            color: var(--grey-three, #bbbbbb);
+            font-weight: normal;
+            margin-bottom: 5px;
+        }
+        
+        .content-section ::content .resultItem-roundTrip:nth-child(2) {
+            margin-top: 10px;
+        }
+        :host([price-left]) .content-section {
+            order:2;
+        }
+        :host([price-left]) .price {
+            min-width:60px;
+            text-align:left;
+        }
+        :host([price-left]) .min-width {
+            max-width:100%;
+        }
+            :host([price-left]) .duration,
+             :host([price-left]) .stops {
+                text-align:right;
+            }
+        </style>
+        <div class="layout horizontal center" id="resultItem">
+            <div class="layout vertical flex content-section">
+                <template is="dom-repeat" items="[[itinerary.legs]]">
+                    <div class="flex layout horizontal center resultItem-roundTrip">
+                        <div class="layout ">
+                            <img src$="{{item.segments.0.airline.imageUrl}}" alt$="{{item.airline.name}}">
+                        </div>
+                        <div class="layout horizontal flex center resultItem__content">
+                            <div class="layout vertical flex-2" style="max-width:105px">
+                                <span class="vertical-margin time">{{_getFormattedTiming(item)}}</span>
+                                <span class="airlineName">{{item.airline.name}}</span>
+                            </div>
+                            <span class="flex min-width"></span>
+                            <div class="layout vertical">
+                                <span class="vertical-margin duration">{{_getFormattedDuration(item.totalJourneyDuration)}}</span>
+                                <span class="stops">{{_getFormattedStops(item.noOfStops)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div class="layout center price">
+                <h3 class="layout vertical">
+                    <span class="currency">{{itinerary.minFare.fare.currency}}</span>
+                    <span>{{_trimPrice(itinerary.minFare.fare.amount)}}</span>
+                </h3>
+            </div>
+        </div>
+    </template>
+</dom-module>
+<script>
+Polymer({
+
+    is: 't-result-item',
+
+    properties: {
+
+        itinerary: {
+            type: Object,
+            value: function() {
+                return null;
+            }
+        },
+
+        priceLeft: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute:true
+        }
+    },
+/*    listeners: {
+        'resultItem.tap': 'selectedResult'
+    },*/
+
+    _getFormattedDuration: function(delta) {
+
+        // calculate (and subtract) whole days
+        var days = Math.floor(delta / 1440);
+        delta -= days * 1440;
+
+        // calculate (and subtract) whole hours
+        var hours = Math.floor(delta / 60);
+        delta -= hours * 60;
+
+        // calculate (and subtract) whole minutes
+        var minutes = delta;
+
+        var formattedDuration = '';
+        if (days > 0)
+            formattedDuration = days + 'd ' + hours + 'h ';
+        else
+            formattedDuration = hours + 'h ';
+
+        if (minutes > 0)
+            formattedDuration = formattedDuration + minutes + 'm';
+
+        return formattedDuration;
+    },
+
+    _getFormattedTiming: function(item) {
+        return this._getTime(item.departureTime.systemDateTime) + " - " + this._getTime(item.arrivalTime.systemDateTime);
+    },
+
+    _getTime: function(dateTime) {
+        var jsDate = new Date(dateTime);
+
+        var hours = jsDate.getUTCHours();
+        hours = hours > 9 ? hours : '0' + hours;
+
+        var minutes = jsDate.getUTCMinutes();
+        minutes = (minutes > 9 ? minutes : '0' + minutes);
+        return hours + ":" + minutes;
+    },
+
+    _trimPrice: function(price) {
+        return parseInt(price);
+    },
+
+    _getFormattedStops: function(stops) {
+        switch (stops) {
+            case 0:
+                return "Non stop";
+            case 1:
+                return stops + " Stop";
+            default:
+                return stops + " Stops";
+        }
+    }
+
+});
+</script>
