@@ -102,12 +102,12 @@
                 <template is="dom-repeat" items="[[itinerary.legs]]">
                     <div class="flex layout horizontal center resultItem-roundTrip">
                         <div class="layout ">
-                            <img src$="{{item.segments.0.airline.imageUrl}}" alt$="{{item.airline.name}}">
+                            <img src$="[[_getAirlineLogo(item.segments)]]" alt$="[[_getAirlineName(item.segments)]]">
                         </div>
                         <div class="layout horizontal flex center resultItem__content">
                             <div class="layout vertical flex-2" style="max-width:105px">
-                                <span class="vertical-margin time">{{_getFormattedTiming(item)}}</span>
-                                <span class="airlineName">{{item.airline.name}}</span>
+                                <span class="vertical-margin time">[[_getFormattedTiming(item)]]</span>
+                                <span class="airlineName">[[_getAirlineName(item.segments)]]</span>
                             </div>
                             <span class="flex min-width"></span>
                             <div class="layout vertical">
@@ -145,6 +145,10 @@ Polymer({
             type: Boolean,
             value: false,
             reflectToAttribute:true
+        },
+
+        defaultLogo:{
+            type:String
         }
     },
 /*    listeners: {
@@ -176,6 +180,24 @@ Polymer({
         return formattedDuration;
     },
 
+    _getAirlineLogo: function(segments){
+        var code = segments[0].airline.code;
+        for (var i = segments.length - 1; i >= 1; i--) {
+            if(segments[i].airline.code != code)
+                return this.defaultLogo;
+        };
+        return segments[0].airline.imageUrl;
+    },
+
+    _getAirlineName: function(segments){
+        var code = segments[0].airline.code;
+        for (var i = segments.length - 1; i >= 1; i--) {
+            if(segments[i].airline.code != code)
+                return 'Mixed Airlines';
+        };
+        return segments[0].airline.name;
+    },
+
     _getFormattedTiming: function(item) {
         return this._getTime(item.departureTime.systemDateTime) + " - " + this._getTime(item.arrivalTime.systemDateTime);
     },
@@ -183,10 +205,10 @@ Polymer({
     _getTime: function(dateTime) {
         var jsDate = new Date(dateTime);
 
-        var hours = jsDate.getUTCHours();
+        var hours = jsDate.getHours();
         hours = hours > 9 ? hours : '0' + hours;
 
-        var minutes = jsDate.getUTCMinutes();
+        var minutes = jsDate.getMinutes();
         minutes = (minutes > 9 ? minutes : '0' + minutes);
         return hours + ":" + minutes;
     },
