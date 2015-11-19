@@ -202,15 +202,8 @@ Polymer({
         return this._getTime(item.departureTime.systemDateTime) + " - " + this._getTime(item.arrivalTime.systemDateTime);
     },
 
-    _getTime: function(dateTime) {
-        var jsDate = new Date(dateTime);
-
-        var hours = jsDate.getHours();
-        hours = hours > 9 ? hours : '0' + hours;
-
-        var minutes = jsDate.getMinutes();
-        minutes = (minutes > 9 ? minutes : '0' + minutes);
-        return hours + ":" + minutes;
+    _getTime: function (dateTime) {
+        return dateTime.split('T')[1].slice(0,5);
     },
 
     _trimPrice: function(price) {
