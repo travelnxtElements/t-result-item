@@ -199,11 +199,26 @@ Polymer({
     },
 
     _getFormattedTiming: function(item) {
-        return this._getTime(item.departureTime.systemDateTime) + " - " + this._getTime(item.arrivalTime.systemDateTime);
+        return this._getTime(item.departureTime) + " - " + this._getTime(item.arrivalTime);
+    },
+
+    _get24HourTime: function (time) {
+        var hours = parseInt(time.substr(0, 2));
+        if (time.indexOf('AM') != -1) {
+            if (hours < 10)
+                time = '0' + time;
+            if (hours == 12)
+                time = time.replace('12', '00');
+        }
+        if (time.indexOf('PM') != -1 && hours < 12) {
+            time = time.replace(hours, (hours + 12));
+        }
+        return time.replace(/(AM|PM)/, '');
     },
 
     _getTime: function (dateTime) {
-        return dateTime.split('T')[1].slice(0,5);
+        var time = this._get24HourTime(dateTime.time);
+        return time;
     },
 
     _trimPrice: function(price) {
