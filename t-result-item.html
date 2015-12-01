@@ -37,6 +37,7 @@
         
         .min-width {
             max-width: 20%;
+            min-width: 5px;
             height: 20px;
         }
         
@@ -98,21 +99,25 @@
             }
         </style>
         <div class="layout horizontal center" id="resultItem">
-            <div class="layout vertical flex content-section">
+            <div style="height:100px" class="layout vertical flex content-section">
                 <template is="dom-repeat" items="[[itinerary.legs]]">
                     <div class="flex layout horizontal center resultItem-roundTrip">
                         <div class="layout ">
                             <img src$="[[_getAirlineLogo(item.segments)]]" alt$="[[_getAirlineName(item.segments)]]">
                         </div>
                         <div class="layout horizontal flex center resultItem__content">
-                            <div class="layout vertical flex-2" style="max-width:105px">
+                            <div class="layout vertical flex " style="min-width:105px;">
                                 <span class="vertical-margin time">[[_getFormattedTiming(item)]]</span>
                                 <span class="airlineName">[[_getAirlineName(item.segments)]]</span>
                             </div>
-                            <span class="flex min-width"></span>
-                            <div class="layout vertical">
+                            <span class=" min-width"></span>
+                            <div class="layout flex vertical" style="min-width:105px;">
                                 <span class="vertical-margin duration">{{_getFormattedDuration(item.totalJourneyDuration)}}</span>
-                                <span class="stops">{{_getFormattedStops(item.noOfStops)}}</span>
+                                <span class="layout horizontal stops">
+                                	<div>{{_getFormattedStops(item.noOfStops)}}</div>
+                            		<div>&nbsp;|&nbsp;</div>
+                            		<span>{{item.cabinType}}</span>
+                            	</span>
                             </div>
                         </div>
                     </div>
