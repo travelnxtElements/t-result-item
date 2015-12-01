@@ -98,24 +98,24 @@
                 text-align: right;
             }
 
-            :host .am-pm {
+            .am-pm {
                 padding-left:2px;
                 font-size: 12px;
             }
         </style>
         <div class="layout horizontal center" id="resultItem">
-            <div class="layout vertical flex content-section">
+            <div class="layout vertical flex content-section" style="height:100px;">
                 <template is="dom-repeat" items="[[itinerary.legs]]">
                     <div class="flex layout horizontal center resultItem-roundTrip">
                         <div class="layout ">
                             <img src$="[[_getAirlineLogo(item.segments)]]" alt$="[[_getAirlineName(item.segments)]]">
                         </div>
                         <div class="layout horizontal flex center resultItem__content">
-                            <div class="layout vertical flex-2" style="max-width:118px">
+                            <div class="layout vertical flex" style="min-width:128px">
                                 <span class="vertical-margin time">
                                     <span>[[_getTime(item.departureTime)]]</span><span class="am-pm">[[_getAMPM(item.departureTime)]]</span>
                                     <span>-</span>
-                                    <span>[[_getTime(item.arrivalTime)]]</span><span class="am-pm">[[_getAMPM(item.arrivalTime)]]</span>
+                                    <span>[[_getTime(item.arrivalTime)]]</span><span class="am-pm">{{_getAMPM(item.arrivalTime)}}</span>
                                 </span>
                                 <span class="airlineName">[[_getAirlineName(item.segments)]]</span>
                             </div>
