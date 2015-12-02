@@ -220,10 +220,6 @@
             return segments[0].airline.name;
         },
 
-        _getFormattedTiming: function (date) {
-            return this._getTime(date);
-        },
-
         _getAMPM: function (date) {
             if (this.showTwelveHourClock) {
                 if (date.time.indexOf('AM') >= 0)
@@ -252,7 +248,7 @@
             if (!this.showTwelveHourClock) {
                 time = this._get24HourTime(time);
             }
-            return time.replace(/(AM|PM)/, '').trim();
+            return time.replace(/(AM|PM)/, '').trim().toLowerCase();
         },
 
         _trimPrice: function (price) {
