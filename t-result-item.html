@@ -98,13 +98,13 @@
                 text-align: right;
             }
 
-            .am-pm {
-                padding-left:2px;
-                font-size: 12px;
-            }
-            .timeSection{
-            	min-width:145px;
-            }
+        .am-pm {
+            /* padding-left:2px; */
+            font-size: 12px;
+        }
+        .timeSection{
+        	min-width:145px;
+        }
         </style>
         <div class="layout horizontal center" id="resultItem">
             <div class="layout vertical flex content-section">
@@ -115,9 +115,9 @@
                         </div>
                         <div class="layout horizontal flex center resultItem__content">
                             <div class="layout vertical flex timeSection">
-                                <span class="vertical-margin time">
+                                <span class="layout horizontal vertical-margin time">
                                     <span>[[_getTime(item.departureTime)]]</span><span class="am-pm">[[_getAMPM(item.departureTime)]]</span>
-                                    <span>-</span>
+                                    <span>&nbsp;-&nbsp;</span>
                                     <span>[[_getTime(item.arrivalTime)]]</span><span class="am-pm">{{_getAMPM(item.arrivalTime)}}</span>
                                 </span>
                                 <span class="airlineName">[[_getAirlineName(item.segments)]]</span>
@@ -223,9 +223,9 @@
         _getAMPM: function (date) {
             if (this.showTwelveHourClock) {
                 if (date.time.indexOf('AM') >= 0)
-                    return 'am'
+                    return ' ' + 'am'
                 if (date.time.indexOf('PM') >= 0)
-                    return 'pm';
+                    return ' ' +'pm';
             }
         },
 
