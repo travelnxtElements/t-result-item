@@ -27,7 +27,7 @@
             margin: 0 10px;
         }
         
-        span {
+        span ,.stops{
             line-height: 15px;
             white-space: nowrap;
             overflow: hidden;
@@ -125,11 +125,11 @@
                             <span class=" min-width"></span>
                             <div class="layout flex vertical">
                                 <span class="vertical-margin duration">{{_getFormattedDuration(item.totalJourneyDuration)}}</span>
-                                <span class="layout horizontal stops">
-                                	<div>{{_getFormattedStops(item.noOfStops)}}</div>
-                            		<div>&nbsp;|&nbsp;</div>
-                            		<span>{{item.cabinType}}</span>
-                            	</span>
+                                <div class="stops">
+                                	{{_getFormattedStops(item.noOfStops)}}
+                            		<span>&nbsp;|&nbsp;</span>
+                            		{{item.cabinType}}
+                            	</div>
                             </div>
                         </div>
                     </div>
