@@ -1,10 +1,10 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
-<link rel="import" href="../t-text-container/t-text-container.html">
+<link rel="import" href="../t-text-container/travel-element-styles.html" />
 <dom-module id="t-result-item">
     <template>
-        <style>
+    <style include="travel-element-styles">
         :host {
             display: block;
         }
@@ -73,7 +73,6 @@
                 }
             </style>
         </template>
-        <t-text-container> 
             <div class="layout horizontal center border-bottom section-small" id="resultItem">
                 <div class="layout vertical flex content-section secondary-text">
                     <template is="dom-repeat" items="[[itinerary.legs]]">
@@ -113,7 +112,6 @@
                     </div>
                 </div>
             </div>
-        </t-text-container>
     </template>
 </dom-module>
 <script>
