@@ -59,6 +59,9 @@ Example:
         .timeSection {
             min-width: 135px;
         }
+        :host([is-hotel-selected]) #resultItem{
+            background: rgba(153, 153, 153, 0.2);
+        }
         </style>
         <template is="dom-if" if="{{priceLeft}}">
             <style>
@@ -81,7 +84,7 @@ Example:
                 }
             </style>
         </template>
-            <div class="layout horizontal center border-bottom section-small" id="resultItem">
+            <div class="layout horizontal center border-bottom section-small" id="resultItem" on-tap="_hilightItem">
                 <div class="layout flex content-section secondary-text">
                     <template is="dom-repeat" items="[[itinerary.legs]]">
                         <div class="flex layout horizontal center resultItem-roundTrip">
@@ -153,6 +156,13 @@ Polymer({
         /*The value will pass a default airline image when there is no image/ to handle mixed airline scenario*/
         defaultLogo: {
             type: String
+        },
+        
+        /*property takes care of hilight effect upon selecting the item*/
+        isHotelSelected: {
+            type: Boolean,
+            reflectToAttribute: true,
+            value:false
         }
     },
 
@@ -243,6 +253,10 @@ Polymer({
             default:
                 return stops + " Stops";
         }
+    },
+    
+    _hilightItem: function() {
+        this.isHotelSelected = true;
     }
 
 });
