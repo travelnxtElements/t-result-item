@@ -315,7 +315,7 @@ Polymer({
         if (this.hilightItemOnTap) {
             this.isHotelSelected = true;
         }
-        this.fire('result-item-selected');
+        this.fire('result-item-selected', this.itinerary);
     }
 });
 </script>
