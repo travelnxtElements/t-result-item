@@ -193,6 +193,15 @@ Polymer({
         },
 
         /**
+         * Result item can be hilighted by enabling this property
+         * @type {Boolean}
+         */
+        hilightItemOnTap: {
+            type: Boolean,
+            value: false
+        },
+
+        /**
          * TODO: why is this named `isHotelSelected`?
          * Toggles the highlighting of the result item
          * @type {Boolean}
@@ -303,7 +312,9 @@ Polymer({
     },
 
     _hilightItem: function() {
-        this.isHotelSelected = true;
+        if (this.hilightItemOnTap) {
+            this.isHotelSelected = true;
+        }
     }
 });
 </script>
